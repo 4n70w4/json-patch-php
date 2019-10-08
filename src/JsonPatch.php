@@ -520,14 +520,14 @@ class JsonPatch
     }
 
     // at target
-    if (!is_array($doc))
+    if (!is_array($doc) && null !== $doc)
     {
       throw new JsonPatchException('Target must be array or associative array');
     }
 
     if (!self::is_associative($doc)) // N.B. returns false for empty arrays
     {
-      if (count($doc) && !self::is_index($part)
+      if (@count($doc) && !self::is_index($part)
           && !($part == '-' && ($op == 'add' || $op == 'append')))
       {
         throw new JsonPatchException("Non-array key '$part' used on array");
